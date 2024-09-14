@@ -1,0 +1,2 @@
+class HiyaController < ApplicationController
+end
