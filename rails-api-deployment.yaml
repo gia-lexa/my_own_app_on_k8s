@@ -1,0 +1,34 @@
+# Manages the creation and scaling of the app's containers (pods)
+apiVersion: apps/v1 # Specifies the Kubernetes API version for the Deployment resource. apps/v1 is the standard version for deployments.
+kind: Deployment # Indicates resources is a Deployment
+metadata:
+  name: rails-api # Name of Deployment - this is how Kubernetes will refer to it
+spec: # Defines details of Deployment, how pods should be created
+  replicas: 1  # Adjustable to scale your app, how many instances of your app will run
+  selector:
+    matchLabels:
+      app: rails-api # tells Kubernetes how to identify the pods that this deployment manages.
+  template:
+    metadata:
+      labels:
+        app: rails-api # Label applied to the pod and is used to match the deployment's selector
+    spec:
+      containers: # Defines containers for my pods
+      - name: rails-api
+        image: my_own_app_on_k8s:latest # My Docker image name
+        ports:
+        - containerPort: 3000  # Rails' default port
+---
+# Exposes my app to the outside world by defining how it can be accessed
+apiVersion: v1
+kind: Service # When defined as a service, it allows external traffic to reach the app's pods
+metadata:
+  name: rails-api-service
+spec:
+  selector:
+    app: rails-api
+  ports:
+  - protocol: TCP
+    port: 80  # Port exposed to the outside world
+    targetPort: 3000  # Port your app is listening on inside the container
+  type: LoadBalancer  # Exposes the service for external access
