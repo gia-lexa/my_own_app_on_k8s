@@ -4,10 +4,10 @@ kind: Deployment # Indicates resources is a Deployment
 metadata:
   name: rails-api # Name of Deployment - this is how Kubernetes will refer to it
 spec: # Defines details of Deployment, how pods should be created
-  replicas: 1  # Adjustable to scale your app, how many instances of your app will run
+  replicas: 1  # Adjustable to scale your app, defines how many instances of your app will run
   selector:
     matchLabels:
-      app: rails-api # tells Kubernetes how to identify the pods that this deployment manages.
+      app: rails-api # Tells Kubernetes how to identify the pods that this deployment manages.
   template:
     metadata:
       labels:
@@ -15,9 +15,11 @@ spec: # Defines details of Deployment, how pods should be created
     spec:
       containers: # Defines containers for my pods
       - name: rails-api
-        image: my_own_app_on_k8s:latest # My Docker image name
+        image: gialexa/my_own_app_on_k8s:latest # My Docker image name
         ports:
         - containerPort: 3000  # Rails' default port
+      imagePullSecrets: # Tells Kubernetes to use your secret for pulling images
+      - name: myregistrykey
 ---
 # Exposes my app to the outside world by defining how it can be accessed
 apiVersion: v1
