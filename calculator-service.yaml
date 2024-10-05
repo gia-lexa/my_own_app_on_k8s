@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculator-service
+  namespace: my-rails-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calculator-service
+  template:
+    metadata:
+      labels:
+        app: calculator-service
+    spec:
+      containers:
+        - name: calculator-service
+          image: gialexa/calculator-service:latest
+          ports:
+            - containerPort: 4567
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculator-service
+  namespace: my-rails-app
+spec:
+  selector:
+    app: calculator-service
+  ports:
+    - protocol: TCP
+      port: 4567
+      targetPort: 4567
