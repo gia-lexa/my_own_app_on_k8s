@@ -1,0 +1,4 @@
+# calculator_service/Gemfile
+source 'https://rubygems.org'
+# choosing Sinatra because it's lightweight/best tool for this job
+gem 'sinatra'
