@@ -22,3 +22,9 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+
+  calculator_service:
+    build:
+      context: ./calculator_service
+    ports:
+      - "4567:4567"
