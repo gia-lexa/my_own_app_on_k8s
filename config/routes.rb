@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   get 'hiyas/hello', to: 'hiyas#hello'
+  get 'add', to: 'calculator#add'
 end
