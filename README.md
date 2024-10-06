@@ -1,5 +1,5 @@
 # README
 
-WIP: For repetition practice and tinkering, this is a soon-to-be a multi-service Ruby application, with each service in its own Docker image, and deployed across Kubernetes. 
+WIP: For the sake of further learning through breaking things, this is a multi-service Ruby application, with each service contained in its own Docker image and deployed across Kubernetes. 
 
 Details to be added soon...
