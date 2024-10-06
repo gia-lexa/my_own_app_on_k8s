@@ -1,36 +1,38 @@
-# Manages the creation and scaling of the app's containers (pods)
-apiVersion: apps/v1 # Specifies the Kubernetes API version for the Deployment resource. apps/v1 is the standard version for deployments.
-kind: Deployment # Indicates resources is a Deployment
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: rails-api # Name of Deployment - this is how Kubernetes will refer to it
-spec: # Defines details of Deployment, how pods should be created
-  replicas: 1  # Adjustable to scale your app, defines how many instances of your app will run
+  name: rails-api
+spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: rails-api # Tells Kubernetes how to identify the pods that this deployment manages.
+      app: rails-api
   template:
     metadata:
       labels:
-        app: rails-api # Label applied to the pod and is used to match the deployment's selector
+        app: rails-api
     spec:
-      containers: # Defines containers for my pods
-      - name: rails-api
-        image: gialexa/my_own_app_on_k8s:latest # My Docker image name
-        ports:
-        - containerPort: 3000  # Rails' default port
-      imagePullSecrets: # Tells Kubernetes to use your secret for pulling images
-      - name: myregistrykey
+      containers:
+        - name: rails-api
+          image: gialexa/my_own_app_on_k8s:latest
+          ports:
+            - containerPort: 3000
+          env: # Move env here
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: rails-secret-key
+                  key: SECRET_KEY_BASE
 ---
-# Exposes my app to the outside world by defining how it can be accessed
 apiVersion: v1
-kind: Service # When defined as a service, it allows external traffic to reach the app's pods
+kind: Service
 metadata:
   name: rails-api-service
 spec:
   selector:
     app: rails-api
   ports:
-  - protocol: TCP
-    port: 80  # Port exposed to the outside world
-    targetPort: 3000  # Port your app is listening on inside the container
-  type: LoadBalancer  # Exposes the service for external access
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
