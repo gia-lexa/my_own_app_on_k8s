@@ -8,4 +8,5 @@ Rails.application.routes.draw do
 
   get 'hiyas/hello', to: 'hiyas#hello'
   get 'add', to: 'calculator#add'
+  get '/quote', to: 'quotes#show'
 end
