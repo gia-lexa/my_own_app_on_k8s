@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quote-service
+  namespace: my-rails-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quote-service
+  template:
+    metadata:
+      labels:
+        app: quote-service
+    spec:
+      containers:
+        - name: quote-service
+          image: <your-dockerhub-username>/quote-service:latest
+          ports:
+            - containerPort: 3000  # Change to 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quote-service
+  namespace: my-rails-app
+spec:
+  selector:
+    app: quote-service
+  ports:
+    - protocol: TCP
+      port: 3000  # Change to 3000
+      targetPort: 3000  # Change to 3000
