@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: quote-service
-          image: <your-dockerhub-username>/quote-service:latest
+          image: gialexa/quote-service:latest
           ports:
             - containerPort: 3000  # Change to 3000
 ---
